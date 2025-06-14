@@ -1,0 +1,81 @@
+<Page
+    x:Class="UniversityEquations.Pages.About.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d">
+
+    <StackPanel Margin="24">
+        <!-- Título principal "About" -->
+        <TextBlock Text="About"
+                 Style="{ThemeResource TitleLargeTextBlockStyle}"
+                 FontSize="40"
+                 FontWeight="Bold"
+                 Margin="80,25,0,0"/>
+
+        <!-- Descripción del programa -->
+        <TextBlock
+                  Margin="80,25,80,0"
+                  Style="{ThemeResource BodyTextBlockStyle}"    
+                  TextWrapping="Wrap"
+                  Text="University Equations is a modern calculator application designed to help students solve complex mathematical equations. With support for various mathematical operations and a clean, intuitive interface, it makes solving equations easier and more efficient." />
+
+        <!-- Subtítulo "More information" -->
+        <TextBlock Text="More information"
+                 Style="{ThemeResource SubtitleTextBlockStyle}"
+                 FontWeight="SemiBold"
+                 Opacity="0.9"
+                 Margin="80,25,0,16"/>
+
+        <!-- Contenido del SettingsExpander -->
+        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="4"
+                Margin="80,0,80,8">
+            <toolkit:SettingsExpander Description="Developed by Cristian Florez"
+                                    Header="University Equations"
+                                    Margin="16,16,16,16">
+                <toolkit:SettingsExpander.HeaderIcon>
+                    <BitmapIcon ShowAsMonochrome="False" 
+                               UriSource="/Assets/icon.ico"/>
+                </toolkit:SettingsExpander.HeaderIcon>
+                
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                         IsTextSelectionEnabled="True"
+                         Text="Version 1.0"/>
+
+                <toolkit:SettingsExpander.Items>
+                    <toolkit:SettingsCard x:Name="toCloneRepoCard"
+                                        Click="CopyGitCommand_Click"
+                                        Header="To clone this repository"
+                                        IsClickEnabled="True">
+                        <TextBlock x:Name="gitCloneTextBlock"
+                                 FontFamily="Consolas"
+                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                 IsTextSelectionEnabled="True"
+                                 Text="git clone https://github.com/SaberCris24/university-equations"/>
+                        <toolkit:SettingsCard.ActionIcon>
+                            <FontIcon Glyph="&#xE8C8;"/>
+                        </toolkit:SettingsCard.ActionIcon>
+                    </toolkit:SettingsCard>
+
+                    <!-- Dependencias y Referencias -->
+                    <toolkit:SettingsCard HorizontalContentAlignment="Left"
+                                        ContentAlignment="Vertical"
+                                        Header="Dependencies &amp; references">
+                        <StackPanel Margin="-12,0,0,0" 
+                                  Orientation="Vertical">
+                            <HyperlinkButton Content="Windows App SDK" 
+                                           NavigateUri="https://github.com/microsoft/WindowsAppSDK/"/>
+                            <HyperlinkButton Content="WinUI 3" 
+                                           NavigateUri="https://github.com/microsoft/microsoft-ui-xaml"/>
+                            <HyperlinkButton Content="Windows Community Toolkit" 
+                                           NavigateUri="https://github.com/CommunityToolkit/WindowsCommunityToolkit"/>
+                        </StackPanel>
+                    </toolkit:SettingsCard>
+                </toolkit:SettingsExpander.Items>
+            </toolkit:SettingsExpander>
+        </Border>
+    </StackPanel>
+</Page>

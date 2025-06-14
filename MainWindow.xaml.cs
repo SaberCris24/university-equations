@@ -1,36 +1,107 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using UniversityEquations.Helpers;
+using UniversityEquations.Pages.Calculator;
+using UniversityEquations.Pages.About;
+using UniversityEquations.Pages.Settings;
+using System;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
-
-namespace Plantilla
+namespace UniversityEquations
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainWindow : Window
     {
+        public NavigationView NavigationViewControl => NavView;
+        private NavigationHelper _navigationHelper;
+
         public MainWindow()
         {
-            this.InitializeComponent();
+            try
+            {
+                this.InitializeComponent();
+
+                // Initialize navigation helper
+                _navigationHelper = new NavigationHelper(NavView);
+
+                // Set up window components
+                WindowSetupHelper.SetupTitleBar(this, AppTitleBar);
+                WindowSetupHelper.SetupWindowSize(this, 800, 600);
+                WindowSetupHelper.SetupWindowIcon(this);
+
+                // Navigate to Calculator page as default
+                contentFrame.Navigate(typeof(CalculatorPage));
+
+                // Initialize NavigationView
+                _navigationHelper.LoadNavigationViewPosition();
+
+                // Subscribe to events
+                NavView.DisplayModeChanged += NavView_DisplayModeChanged;
+                if (Content is FrameworkElement rootElement)
+                {
+                    rootElement.ActualThemeChanged += MainWindow_ActualThemeChanged;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error initializing MainWindow: {ex.Message}");
+                throw;
+            }
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        public void SaveNavigationViewPosition(bool isLeftMode)
         {
-            myButton.Content = "Clicked";
+            _navigationHelper.SaveNavigationViewPosition(isLeftMode);
+        }
+
+        public void UpdateNavigationViewMode(bool isLeftMode)
+        {
+            _navigationHelper.UpdateNavigationViewMode(isLeftMode);
+        }
+
+        private void MainWindow_ActualThemeChanged(FrameworkElement sender, object args)
+        {
+            try
+            {
+                if (Content is FrameworkElement rootElement)
+                {
+                    ThemeHelper.UpdateCaptionButtonColors(this, rootElement.ActualTheme);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error handling theme change: {ex.Message}");
+            }
+        }
+
+        private void NavView_DisplayModeChanged(NavigationView sender, NavigationViewDisplayModeChangedEventArgs args)
+        {
+            _navigationHelper.SaveNavigationViewPosition(sender.PaneDisplayMode != NavigationViewPaneDisplayMode.Top);
+        }
+
+        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            try
+            {
+                if (args.IsSettingsSelected)
+                {
+                    contentFrame.Navigate(typeof(SettingsPage));
+                }
+                else if (args.SelectedItem is NavigationViewItem selectedItem)
+                {
+                    switch (selectedItem.Tag.ToString())
+                    {
+                        case "calculator":
+                            contentFrame.Navigate(typeof(CalculatorPage));
+                            break;
+                        case "about":
+                            contentFrame.Navigate(typeof(AboutPage));
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error handling navigation: {ex.Message}");
+            }
         }
     }
 }
