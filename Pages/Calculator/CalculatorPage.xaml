@@ -10,17 +10,17 @@
         <StackPanel Margin="24">
             <!-- Calculator Title -->
             <TextBlock Text="Calculator"
-                     Style="{ThemeResource TitleLargeTextBlockStyle}"
-                     FontSize="40"
-                     FontWeight="Bold"
-                     Margin="80,25,0,0"/>
+                      Style="{ThemeResource TitleLargeTextBlockStyle}"
+                      FontSize="40"
+                      FontWeight="Bold"
+                      Margin="80,25,0,0"/>
 
             <!-- Exact Differential Equations Section -->
             <TextBlock Text="Exact Differential Equations"
-                     Style="{ThemeResource SubtitleTextBlockStyle}"
-                     FontWeight="SemiBold"
-                     Opacity="0.9"
-                     Margin="80,25,0,16"/>
+                      Style="{ThemeResource SubtitleTextBlockStyle}"
+                      FontWeight="SemiBold"
+                      Opacity="0.9"
+                      Margin="80,25,0,16"/>
 
             <!-- Input Card -->
             <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -37,14 +37,14 @@
 
                 <!-- Instructions -->
                 <TextBlock Text="Enter the coefficients for the equation Mdx + Ndy = 0"
-                         Style="{ThemeResource BodyTextBlockStyle}"
-                         Margin="0,0,0,16"/>
+                          Style="{ThemeResource BodyTextBlockStyle}"
+                          Margin="0,0,0,16"/>
 
                 <!-- M(x,y) Input -->
                 <StackPanel Grid.Row="1" Margin="0,0,0,16">
                     <TextBlock Text="M(x,y):"
-                             Style="{ThemeResource BodyStrongTextBlockStyle}"
-                             Margin="0,0,0,8"/>
+                              Style="{ThemeResource BodyStrongTextBlockStyle}"
+                              Margin="0,0,0,8"/>
                     <TextBox x:Name="MFunctionTextBox"
                             PlaceholderText="Enter M(x,y) function (e.g., 2xy + x²)"
                             Margin="0,0,0,8"/>
@@ -53,35 +53,45 @@
                 <!-- N(x,y) Input -->
                 <StackPanel Grid.Row="2" Margin="0,0,0,16">
                     <TextBlock Text="N(x,y):"
-                             Style="{ThemeResource BodyStrongTextBlockStyle}"
-                             Margin="0,0,0,8"/>
+                              Style="{ThemeResource BodyStrongTextBlockStyle}"
+                              Margin="0,0,0,8"/>
                     <TextBox x:Name="NFunctionTextBox"
                             PlaceholderText="Enter N(x,y) function (e.g., y² + xy)"
                             Margin="0,0,0,8"/>
                 </StackPanel>
 
-                <!-- Solve Button -->
-                <Button Grid.Row="3"
-                        Content="Solve Equation"
-                        Style="{ThemeResource AccentButtonStyle}"
-                        Click="SolveButton_Click"/>
+                <!-- Action Buttons -->
+                <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8">
+                    <Button Content="Check if Exact"
+                            Click="CheckExactButton_Click"/>
+                    <Button Content="Find Integrating Factor"
+                            Click="FindIntegratingFactorButton_Click"/>
+                    <Button Content="Check New Equation"
+                            Click="CheckNewEquationButton_Click"/>
+                    <Button Content="Show Solution"
+                            Click="ShowSolutionButton_Click"/>
+                    <Button Content="Show All (High Consume)"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Click="ShowAllButton_Click"/>
+                </StackPanel>
             </Grid>
 
-                <!-- Results Card -->
-                <Grid x:Name="ResultsCard"
-                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                CornerRadius="4"
-                Margin="80,8,80,8"
-                Padding="16"
-                Visibility="Collapsed">
+            <!-- Results Card -->
+            <Grid x:Name="ResultsCard"
+                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                  CornerRadius="4"
+                  Margin="80,8,80,8"
+                  Padding="16"
+                  Visibility="Collapsed">
                 
                 <StackPanel>
-                        <TextBlock Text="Results"
-                                Style="{ThemeResource SubtitleTextBlockStyle}"
-                                FontWeight="SemiBold"
-                                Margin="0,0,0,16"/>
+                    <TextBlock Text="Results"
+                              Style="{ThemeResource SubtitleTextBlockStyle}"
+                              FontWeight="SemiBold"
+                              Margin="0,0,0,16"/>
 
-                        <!-- Exactness Check Result -->
+                    <!-- Exactness Section -->
+                    <StackPanel x:Name="ExactnessPanel" Visibility="Collapsed">
                         <TextBlock Text="Is the equation exact?"
                                 Style="{ThemeResource BodyStrongTextBlockStyle}"
                                 Margin="0,0,0,8"/>
@@ -94,47 +104,46 @@
                                 Style="{ThemeResource BodyStrongTextBlockStyle}"
                                 Margin="0,0,0,8"/>
                         <Grid Margin="0,0,0,16">
-                        <Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+                            </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" 
-                                Text="∂M/∂y = " 
-                                FontFamily="Segoe UI"
-                                Style="{ThemeResource BodyTextBlockStyle}"
-                                Margin="0,0,8,4"/>
-                        <TextBlock Grid.Row="0" Grid.Column="1" 
-                                x:Name="DMdyText"
-                                Style="{ThemeResource BodyTextBlockStyle}"
-                                Margin="0,0,0,4"/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" 
+                                    Text="∂M/∂y = " 
+                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                    Margin="0,0,8,4"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" 
+                                    x:Name="DMdyText"
+                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                    Margin="0,0,0,4"/>
 
-                        <TextBlock Grid.Row="1" Grid.Column="0" 
-                                Text="∂N/∂x = " 
-                                FontFamily="Segoe UI"
-                                Style="{ThemeResource BodyTextBlockStyle}"
-                                Margin="0,0,8,0"/>
-                        <TextBlock Grid.Row="1" Grid.Column="1" 
-                                x:Name="DNdxText"
-                                Style="{ThemeResource BodyTextBlockStyle}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" 
+                                    Text="∂N/∂x = " 
+                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                    Margin="0,0,8,0"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" 
+                                    x:Name="DNdxText"
+                                    Style="{ThemeResource BodyTextBlockStyle}"/>
                         </Grid>
+                    </StackPanel>
 
-                        <!-- Integrating Factor Section -->
-                        <StackPanel x:Name="IntegratingFactorPanel" 
-                                Visibility="Visible"
-                                Margin="0,0,0,16">
+                    <!-- Integrating Factor Section -->
+                    <StackPanel x:Name="IntegratingFactorPanel" Visibility="Collapsed">
                         <TextBlock Text="Integrating Factor"
                                 Style="{ThemeResource BodyStrongTextBlockStyle}"
                                 Margin="0,0,0,8"/>
                         <TextBlock x:Name="IntegratingFactorText"
                                 Style="{ThemeResource BodyTextBlockStyle}"
                                 Margin="0,0,0,16"/>
+                    </StackPanel>
 
-                        <!-- New Equation Section -->
+                    <!-- New Equation Section -->
+                    <StackPanel x:Name="NewEquationPanel" Visibility="Collapsed">
                         <TextBlock Text="New Equation"
                                 Style="{ThemeResource BodyStrongTextBlockStyle}"
                                 Margin="0,0,0,8"/>
@@ -142,25 +151,25 @@
                                 Style="{ThemeResource BodyTextBlockStyle}"
                                 Margin="0,0,0,16"/>
 
-
-                        <!-- Verification -->
                         <TextBlock Text="Verification"
                                 Style="{ThemeResource BodyStrongTextBlockStyle}"
                                 Margin="0,0,0,8"/>
                         <TextBlock x:Name="VerificationText"
                                 Style="{ThemeResource BodyTextBlockStyle}"
                                 Margin="0,0,0,16"/>
-                        </StackPanel>
+                    </StackPanel>
 
-                        <!-- Solution -->
+                    <!-- Solution Section -->
+                    <StackPanel x:Name="SolutionPanel" Visibility="Collapsed">
                         <TextBlock Text="Solution:"
                                 Style="{ThemeResource BodyStrongTextBlockStyle}"
                                 Margin="0,0,0,8"/>
                         <TextBlock x:Name="SolutionText"
                                 Style="{ThemeResource BodyTextBlockStyle}"
                                 TextWrapping="Wrap"/>
+                    </StackPanel>
                 </StackPanel>
-                </Grid>
+            </Grid>
         </StackPanel>
     </ScrollViewer>
 </Page>
