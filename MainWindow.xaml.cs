@@ -10,8 +10,11 @@ namespace UniversityEquations
 {
     public sealed partial class MainWindow : Window
     {
+        #region Properties
         public NavigationView NavigationViewControl => NavView;
         private NavigationHelper _navigationHelper;
+        private Frame ContentFrame => contentFrame;
+        #endregion
 
         public MainWindow()
         {
@@ -23,9 +26,14 @@ namespace UniversityEquations
                 _navigationHelper = new NavigationHelper(NavView);
 
                 // Set up window components
-                WindowSetupHelper.SetupTitleBar(this, AppTitleBar);
                 WindowSetupHelper.SetupWindowSize(this, 800, 600);
                 WindowSetupHelper.SetupWindowIcon(this);
+
+                WindowSetupHelper.SetupTitleBar(this, AppTitleBar);
+
+
+                // Setup theme
+                SetupTheme();
 
                 // Navigate to Calculator page as default
                 contentFrame.Navigate(typeof(CalculatorPage));
@@ -43,7 +51,17 @@ namespace UniversityEquations
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error initializing MainWindow: {ex.Message}");
-                throw;
+                throw; // Re-throw to ensure window creation fails if initialization fails
+            }
+        }
+
+        private void SetupTheme()
+        {
+            if (Content is FrameworkElement rootElement)
+            {
+                ElementTheme savedTheme = ThemeHelper.LoadSavedTheme();
+                rootElement.RequestedTheme = savedTheme;
+                ThemeHelper.UpdateCaptionButtonColors(this, rootElement.ActualTheme);
             }
         }
 

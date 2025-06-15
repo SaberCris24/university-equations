@@ -1,33 +1,50 @@
 using Microsoft.UI;
-using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using System;
 using Windows.UI;
 
 namespace UniversityEquations.Helpers
-{
-    public static class TitleBarHelper
+{    internal class TitleBarHelper
     {
+        public static Color ApplySystemThemeToCaptionButtons(Window window)
+        {
+            if (window.Content is FrameworkElement rootElement)
+            {
+                Color color = rootElement.ActualTheme == ElementTheme.Dark ? Colors.White : Colors.Black;
+                SetCaptionButtonColors(window, color);
+                return color;
+            }
+            return Colors.Black;
+        }
+
         public static void SetCaptionButtonColors(Window window, Color color)
         {
-            try
-            {
-                var handle = WinRT.Interop.WindowNative.GetWindowHandle(window);
-                var windowId = Win32Interop.GetWindowIdFromWindow(handle);
-                var appWindow = AppWindow.GetFromWindowId(windowId);
+            var res = Application.Current.Resources;
+            res["WindowCaptionForeground"] = color;
+            window.AppWindow.TitleBar.ButtonForegroundColor = color;
+            window.AppWindow.TitleBar.ButtonHoverForegroundColor = color;
+            window.AppWindow.TitleBar.ButtonPressedForegroundColor = color;
+            window.AppWindow.TitleBar.ButtonInactiveForegroundColor = color;
+        }
 
-                if (appWindow.TitleBar.ExtendsContentIntoTitleBar)
-                {
-                    appWindow.TitleBar.ButtonForegroundColor = color;
-                    appWindow.TitleBar.ButtonHoverForegroundColor = color;
-                    appWindow.TitleBar.ButtonPressedForegroundColor = color;
-                    appWindow.TitleBar.ButtonInactiveForegroundColor = color;
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Failed to set caption button colors: {ex.Message}");
-            }
+        public static void SetCaptionButtonBackgroundColors(Window window, Color? color)
+        {
+            var titleBar = window.AppWindow.TitleBar;
+            titleBar.ButtonBackgroundColor = color;
+            titleBar.ButtonHoverBackgroundColor = color;
+            titleBar.ButtonPressedBackgroundColor = color;
+            titleBar.ButtonInactiveBackgroundColor = color;
+        }
+
+        public static void SetForegroundColor(Window window, Color? color)
+        {
+            window.AppWindow.TitleBar.ForegroundColor = color;
+            window.AppWindow.TitleBar.InactiveForegroundColor = color;
+        }
+
+        public static void SetBackgroundColor(Window window, Color? color)
+        {
+            window.AppWindow.TitleBar.BackgroundColor = color;
+            window.AppWindow.TitleBar.InactiveBackgroundColor = color;
         }
     }
 }

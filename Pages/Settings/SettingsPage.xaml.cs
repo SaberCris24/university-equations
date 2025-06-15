@@ -8,6 +8,9 @@ namespace UniversityEquations.Pages.Settings
 {
     public sealed partial class SettingsPage : Page
     {
+        /// <summary>
+        /// Initializes the settings page and sets up required event handlers
+        /// </summary>
         public SettingsPage()
         {
             this.InitializeComponent();
@@ -17,11 +20,19 @@ namespace UniversityEquations.Pages.Settings
             this.Loaded += SettingsPage_Loaded;
         }
 
+        /// <summary>
+        /// Handles the page's Loaded event
+        /// Ensures settings are initialized after the page is fully loaded
+        /// </summary>
         private void SettingsPage_Loaded(object sender, RoutedEventArgs e)
         {
             InitializeSettings();
         }
 
+        /// <summary>
+        /// Initializes all settings controls with their current values
+        /// Sets up theme, backdrop, and navigation preferences
+        /// </summary>
         private void InitializeSettings()
         {
             try
@@ -53,6 +64,10 @@ namespace UniversityEquations.Pages.Settings
             }
         }
 
+        /// <summary>
+        /// Handles theme selection changes
+        /// Updates the application theme when user selects a different option
+        /// </summary>
         private void cmbTheme_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -77,6 +92,10 @@ namespace UniversityEquations.Pages.Settings
             }
         }
 
+        /// <summary>
+        /// Handles backdrop selection changes
+        /// Updates the window backdrop when user selects a different effect
+        /// </summary>
         private void cmbBackdrop_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -101,6 +120,10 @@ namespace UniversityEquations.Pages.Settings
             }
         }
 
+        /// <summary>
+        /// Handles navigation style selection changes
+        /// Updates the navigation pane position when user changes the layout preference
+        /// </summary>
         private void cmbNavPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try

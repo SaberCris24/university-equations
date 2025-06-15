@@ -1,50 +1,86 @@
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Windows.Graphics;
+using System;
+using System.Runtime.InteropServices;
+using WinRT.Interop;
 
 namespace UniversityEquations.Helpers
 {
     public static class WindowSetupHelper
     {
-        public static void SetupTitleBar(Window window, UIElement customTitleBar)
-        {
-            // Hide default title bar
-            var appWindow = GetAppWindow(window);
-            if (appWindow is not null)
-            {
-                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-            }
+        #region Win32 API
 
-            // Set custom title bar
-            window.ExtendsContentIntoTitleBar = true;
-            window.SetTitleBar(customTitleBar);
-        }
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 
-        public static void SetupWindowSize(Window window, int minWidth, int minHeight)
-        {
-            var appWindow = GetAppWindow(window);
-            if (appWindow is not null)
-            {
-                var preferredSize = new Windows.Graphics.SizeInt32(minWidth, minHeight);
-                appWindow.Resize(preferredSize);
-            }
-        }
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern IntPtr LoadImage(IntPtr hInst, string lpszName, uint uType, int cxDesired, int cyDesired, uint fuLoad);
+
+        private const int WM_SETICON = 0x0080;
+        private const uint IMAGE_ICON = 1;
+        private const uint LR_LOADFROMFILE = 0x00000010;
+
+        #endregion
 
         public static void SetupWindowIcon(Window window)
         {
-            var appWindow = GetAppWindow(window);
-            if (appWindow is not null)
+            try
             {
-                appWindow.SetIcon("Assets/icon.ico");
+                var hwnd = WindowNative.GetWindowHandle(window);
+                string iconPath = System.IO.Path.Combine(Environment.CurrentDirectory, "Assets", "icon.ico");
+                
+                IntPtr hIcon = LoadImage(IntPtr.Zero, iconPath, IMAGE_ICON, 0, 0, LR_LOADFROMFILE);
+                
+                SendMessage(hwnd, WM_SETICON, (IntPtr)1, hIcon);
+                SendMessage(hwnd, WM_SETICON, (IntPtr)0, hIcon);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error setting window icon: {ex.Message}");
             }
         }
 
-        private static AppWindow GetAppWindow(Window window)
+        public static void SetupWindowSize(Window window, int MinWidth, int MinHeight)
         {
-            var windowHandle = WinRT.Interop.WindowNative.GetWindowHandle(window);
-            var windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
-            return AppWindow.GetFromWindowId(windowId);
+            try
+            {
+                var presenter = OverlappedPresenter.Create();
+                presenter.IsResizable = true;
+                presenter.IsMaximizable = true;
+                presenter.IsMinimizable = true;
+
+                var hwnd = WindowNative.GetWindowHandle(window);
+                var windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
+                var appWindow = AppWindow.GetFromWindowId(windowId);
+                
+                appWindow.Resize(new Windows.Graphics.SizeInt32(MinWidth, MinHeight));
+                
+                window.AppWindow.SetPresenter(presenter);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error setting up window size: {ex.Message}");
+            }
+        }
+
+        public static void SetupTitleBar(Window window, UIElement titleBarElement)
+        {
+            try
+            {
+                window.ExtendsContentIntoTitleBar = true;
+                window.SetTitleBar(titleBarElement);
+
+                window.AppWindow.Title = "WTHIT";
+                window.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                window.AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+
+                TitleBarHelper.SetBackgroundColor(window, Colors.Transparent);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error setting up title bar: {ex.Message}");
+            }
         }
     }
 }
