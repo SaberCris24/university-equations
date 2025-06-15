@@ -67,37 +67,71 @@
                         Click="SolveButton_Click"/>
             </Grid>
 
-            <!-- Results Card -->
-            <Grid x:Name="ResultsCard"
-                  Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                  CornerRadius="4"
-                  Margin="80,8,80,8"
-                  Padding="16"
-                  Visibility="Collapsed">
-                
-                <StackPanel>
-                    <TextBlock Text="Results"
-                             Style="{ThemeResource SubtitleTextBlockStyle}"
-                             FontWeight="SemiBold"
-                             Margin="0,0,0,16"/>
+                <!-- Results Card -->
+                <Grid x:Name="ResultsCard"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="4"
+                    Margin="80,8,80,8"
+                    Padding="16"
+                    Visibility="Collapsed">
+                    
+                    <StackPanel>
+                        <TextBlock Text="Results"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"
+                                FontWeight="SemiBold"
+                                Margin="0,0,0,16"/>
 
-                    <!-- Exactness Check Result -->
-                    <TextBlock Text="Is the equation exact?"
-                             Style="{ThemeResource BodyStrongTextBlockStyle}"
-                             Margin="0,0,0,8"/>
-                    <TextBlock x:Name="ExactnessResultText"
-                             Style="{ThemeResource BodyTextBlockStyle}"
-                             Margin="0,0,0,16"/>
+                        <!-- Exactness Check Result -->
+                        <TextBlock Text="Is the equation exact?"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Margin="0,0,0,8"/>
+                        <TextBlock x:Name="ExactnessResultText"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Margin="0,0,0,16"/>
 
-                    <!-- Solution -->
-                    <TextBlock Text="Solution:"
-                             Style="{ThemeResource BodyStrongTextBlockStyle}"
-                             Margin="0,0,0,8"/>
-                    <TextBlock x:Name="SolutionText"
-                             Style="{ThemeResource BodyTextBlockStyle}"
-                             TextWrapping="Wrap"/>
-                </StackPanel>
-            </Grid>
+                        <!-- Partial Derivatives Section -->
+                        <TextBlock Text="Partial Derivatives"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Margin="0,0,0,8"/>
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" 
+                                    Text="∂M/∂y = " 
+                                    FontFamily="Segoe UI"
+                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                    Margin="0,0,8,4"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" 
+                                    x:Name="DMdyText"
+                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                    Margin="0,0,0,4"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" 
+                                    Text="∂N/∂x = " 
+                                    FontFamily="Segoe UI"
+                                    Style="{ThemeResource BodyTextBlockStyle}"
+                                    Margin="0,0,8,0"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" 
+                                    x:Name="DNdxText"
+                                    Style="{ThemeResource BodyTextBlockStyle}"/>
+                        </Grid>
+
+                        <!-- Solution -->
+                        <TextBlock Text="Solution:"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Margin="0,0,0,8"/>
+                        <TextBlock x:Name="SolutionText"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Grid>
         </StackPanel>
     </ScrollViewer>
 </Page>

@@ -29,26 +29,23 @@ namespace UniversityEquations.Pages.Calculator
                 bool isExact = ExactDifferentialService.IsExact(M, N);
                 ResultsCard.Visibility = Visibility.Visible;
 
+                // Update partial derivatives display
+                DMdyText.Text = dMdy;
+                DNdxText.Text = dNdx;
+
                 if (isExact)
                 {
-                    ExactnessResultText.Text = $"Yes, this is an exact differential equation.\n\n" +
-                                             $"∂M/∂y = ∂N/∂x\n" +
-                                             $"∂M/∂y = {dMdy}\n" +
-                                             $"∂N/∂x = {dNdx}\n\n" +
-                                             $"The equation {M}dx + {N}dy = 0 is exact.";
+                    ExactnessResultText.Text = "Yes, this is an exact differential equation.";
+                    SolutionText.Text = $"The equation {M}dx + {N}dy = 0 is exact.\n" +
+                                    "The partial derivatives are equal.";
                 }
                 else
                 {
-                    ExactnessResultText.Text = $"No, this is not an exact differential equation.\n\n" +
-                                             $"∂M/∂y ≠ ∂N/∂x\n" +
-                                             $"∂M/∂y = {dMdy}\n" +
-                                             $"∂N/∂x = {dNdx}\n\n" +
-                                             $"The equation {M}dx + {N}dy = 0 is not exact.\n" +
-                                             "You may need to find an integrating factor.";
+                    ExactnessResultText.Text = "No, this is not an exact differential equation.";
+                    SolutionText.Text = $"The equation {M}dx + {N}dy = 0 is not exact.\n" +
+                                    "The partial derivatives are not equal.\n" +
+                                    "You may need to find an integrating factor.";
                 }
-
-                // Por ahora ocultamos la solución ya que eso se implementará después
-                SolutionText.Text = "";
             }
             catch (Exception ex)
             {
