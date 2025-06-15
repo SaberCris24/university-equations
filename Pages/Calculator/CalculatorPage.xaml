@@ -69,13 +69,13 @@
 
                 <!-- Results Card -->
                 <Grid x:Name="ResultsCard"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                    CornerRadius="4"
-                    Margin="80,8,80,8"
-                    Padding="16"
-                    Visibility="Collapsed">
-                    
-                    <StackPanel>
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="4"
+                Margin="80,8,80,8"
+                Padding="16"
+                Visibility="Collapsed">
+                
+                <StackPanel>
                         <TextBlock Text="Results"
                                 Style="{ThemeResource SubtitleTextBlockStyle}"
                                 FontWeight="SemiBold"
@@ -94,34 +94,63 @@
                                 Style="{ThemeResource BodyStrongTextBlockStyle}"
                                 Margin="0,0,0,8"/>
                         <Grid Margin="0,0,0,16">
-                            <Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                        </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="0" 
-                                    Text="∂M/∂y = " 
-                                    FontFamily="Segoe UI"
-                                    Style="{ThemeResource BodyTextBlockStyle}"
-                                    Margin="0,0,8,4"/>
-                            <TextBlock Grid.Row="0" Grid.Column="1" 
-                                    x:Name="DMdyText"
-                                    Style="{ThemeResource BodyTextBlockStyle}"
-                                    Margin="0,0,0,4"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" 
+                                Text="∂M/∂y = " 
+                                FontFamily="Segoe UI"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Margin="0,0,8,4"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" 
+                                x:Name="DMdyText"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Margin="0,0,0,4"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" 
-                                    Text="∂N/∂x = " 
-                                    FontFamily="Segoe UI"
-                                    Style="{ThemeResource BodyTextBlockStyle}"
-                                    Margin="0,0,8,0"/>
-                            <TextBlock Grid.Row="1" Grid.Column="1" 
-                                    x:Name="DNdxText"
-                                    Style="{ThemeResource BodyTextBlockStyle}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" 
+                                Text="∂N/∂x = " 
+                                FontFamily="Segoe UI"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Margin="0,0,8,0"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" 
+                                x:Name="DNdxText"
+                                Style="{ThemeResource BodyTextBlockStyle}"/>
                         </Grid>
+
+                        <!-- Integrating Factor Section -->
+                        <StackPanel x:Name="IntegratingFactorPanel" 
+                                Visibility="Visible"
+                                Margin="0,0,0,16">
+                        <TextBlock Text="Integrating Factor"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Margin="0,0,0,8"/>
+                        <TextBlock x:Name="IntegratingFactorText"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Margin="0,0,0,16"/>
+
+                        <!-- New Equation Section -->
+                        <TextBlock Text="New Equation"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Margin="0,0,0,8"/>
+                        <TextBlock x:Name="NewEquationText"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Margin="0,0,0,16"/>
+
+
+                        <!-- Verification -->
+                        <TextBlock Text="Verification"
+                                Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                Margin="0,0,0,8"/>
+                        <TextBlock x:Name="VerificationText"
+                                Style="{ThemeResource BodyTextBlockStyle}"
+                                Margin="0,0,0,16"/>
+                        </StackPanel>
 
                         <!-- Solution -->
                         <TextBlock Text="Solution:"
@@ -130,7 +159,7 @@
                         <TextBlock x:Name="SolutionText"
                                 Style="{ThemeResource BodyTextBlockStyle}"
                                 TextWrapping="Wrap"/>
-                    </StackPanel>
+                </StackPanel>
                 </Grid>
         </StackPanel>
     </ScrollViewer>
